@@ -30,35 +30,29 @@ Copy paste microtrace.h into your project, include the file and use it like this
 ```c
 #include "microtrace.h"
 
+void main(void) {
 
-void main(void){
+  MICROTRACE_INIT();
 
-    MICROTRACE_INIT();
+  /* ... */
 
-		/* ... */
+  MICROTRACE_BEGIN("Perif", "Camera Init");
+  BSP_Camera_Init();
+  MICROTRACE_END("Perif", "Camera Init");
 
-    MICROTRACE_BEGIN("Perif", "Camera Init");
-		BSP_Camera_Init();
-    MICROTRACE_END("Perif", "Camera Init");
+  MICROTRACE_BEGIN("Main", "Main loop");
 
+  for (int i = 0; i < 10; i++) {
+    MICROTRACE_BEGIN("Image proc", "Equalize histogram")
+    /* Processing here */
+    MICROTRACE_END("Image proc", "Equalize histogram")
+  }
+  MICROTRACE_END("Main", "Main loop");
 
-    MICROTRACE_BEGIN("Main", "Main loop");
-		for(int i = 0; i < 10; i++){
+  MICROTRACE_INSTANT("Main", "Instantaneous event");
 
-        MICROTRACE_BEGIN("Image proc", "Equalize histogram")
-				/* Processing here */
-        MICROTRACE_END("Image proc", "Equalize histogram")
-
-
-		}
-    MICROTRACE_BEGIN("Main", "Main loop");
-
-    MICROTRACE_INSTANT("Main", "Instantaneous event");
-
-
-    MICROTRACE_DUMP_JSON();
+  MICROTRACE_DUMP_JSON();
 }
-
 
 ```
 
