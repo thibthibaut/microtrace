@@ -69,7 +69,7 @@ Please refer to Chrome documentation on how to use this tool.
 
 ## Configuration 
 
-Please refer to [microtrace.h](https://github.com/thibthibaut/microtrace/blob/db024ec3871586c0b244a14b5ed732a9cf84e53c/microtrace.h#L34)
+Please refer to [microtrace.h](https://github.com/thibthibaut/microtrace/blob/b540a3ef5253aba0d767a99c02b47e2e1fbd1f3b/microtrace.h#L34)
 
 ## License 
 
