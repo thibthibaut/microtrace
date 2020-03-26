@@ -69,8 +69,8 @@ Please refer to Chrome documentation on how to use this tool.
 
 ## Configuration 
 
-Please refer to microtrace.h 
+Please refer to [microtrace.h](https://github.com/thibthibaut/microtrace/blob/db024ec3871586c0b244a14b5ed732a9cf84e53c/microtrace.h#L34)
 
-## Licence 
+## License 
 
-This work is under MIT Licence. See Licence file for more info
+This work is under MIT License. See License file for more info.
