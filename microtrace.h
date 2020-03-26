@@ -75,26 +75,25 @@ typedef struct {
   char phase;
 } microtrace_event_t;
 
-#define SIZE_OF sizeof(MICROTRACE_BUFFER_SECTION)
+extern microtrace_event_t microtrace_event_buffer[MICROTRACE_MAX_EVENTS];
+extern uint32_t microtrace_event_counter;
+extern char microtrace_print_buffer[512];
 
+#define MICROTRACE_STATIC_ASSERT(COND, MSG)                                    \
+  typedef char MICROTRACE_STATIC_ASSERTION_FAILED_##MSG[(COND) ? 1 : -1]
+
+#ifndef MICROTRACE_BUFFER_HAS_BEEN_ALLOCATED
+#define MICROTRACE_BUFFER_HAS_BEEN_ALLOCATED
 #ifdef MICROTRACE_CUSTOM_MEMORY
 __attribute__((section(MICROTRACE_BUFFER_SECTION)))
 #endif
 microtrace_event_t microtrace_event_buffer[MICROTRACE_MAX_EVENTS];
 uint32_t microtrace_event_counter;
-
 #ifdef MICROTRACE_CUSTOM_MEMORY
 __attribute__((section(MICROTRACE_BUFFER_SECTION)))
 #endif
 char microtrace_print_buffer[512];
-
-#define MICROTRACE_STATIC_ASSERT(COND, MSG)                                    \
-  typedef char MICROTRACE_STATIC_ASSERTION_FAILED_##MSG[(COND) ? 1 : -1]
-
-#define MICROTRACE_INIT()                                                      \
-  do {                                                                         \
-    microtrace_event_counter = 0;                                              \
-  } while (0);
+#endif
 
 #ifndef MICROTRACE_DISABLE
 #define _MICROTRACE_ADD_EVENT(_phase, _category, _name)                        \
