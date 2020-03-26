@@ -70,7 +70,7 @@ Please refer to Chrome documentation on how to use this tool.
 
 ## Configuration 
 
-Please refer to minitrace.h 
+Please refer to microtrace.h 
 
 ## Licence 
 
