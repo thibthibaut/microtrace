@@ -12,7 +12,7 @@ Tracing tool for microcontrollers. Inspired from [minitrace](https://github.com/
 
 Microtrace is a header-only library targeting microcontrollers for producing JSON traces suitable for Chrome's built-in trace viewer (chrome://tracing).
 
-> Note: Is in very early developpement and currently has only been tested on STM32 microcontrolers
+> Note: Is in very early developpement and currently has only been tested on STM32 microcontrollers
 
 ## Screenshots
 
@@ -20,8 +20,7 @@ Comming soon
 
 ## Prerequisites
 
-
-
+You need to have `printf()` printing somewhere in order to dump the JSON file. You also need some kind of function to measure the number of microseconds elapsed since start of program. See Configuration for more details.
 
 ## How to use 
 
