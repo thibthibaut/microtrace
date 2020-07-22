@@ -31,24 +31,26 @@ Copy paste microtrace.h into your project, include the file and use it like this
 
 void main(void) {
 
-  MICROTRACE_INIT();
-
   /* ... */
 
-  MICROTRACE_BEGIN("Perif", "Camera Init");
+  MICROTRACE_BEGIN("Perif", "Camera Init", 1);
   BSP_Camera_Init();
-  MICROTRACE_END("Perif", "Camera Init");
+  MICROTRACE_END("Perif", "Camera Init", 1);
 
-  MICROTRACE_BEGIN("Main", "Main loop");
+  MICROTRACE_BEGIN("Main", "Main loop", 1);
 
   for (int i = 0; i < 10; i++) {
-    MICROTRACE_BEGIN("Image proc", "Equalize histogram")
+    MICROTRACE_BEGIN("Image proc", "Equalize histogram", 1)
     /* Processing here */
-    MICROTRACE_END("Image proc", "Equalize histogram")
+    MICROTRACE_END("Image proc", "Equalize histogram", 1)
   }
-  MICROTRACE_END("Main", "Main loop");
+  MICROTRACE_END("Main", "Main loop", 1);
 
-  MICROTRACE_INSTANT("Main", "Instantaneous event");
+  MICROTRACE_INSTANT("Main", "Instantaneous event", 1);
+
+  MICROTRACE_BEGIN("Parallel", "DMA task", 2);
+  /* Parallel task here */
+  MICROTRACE_END("Parallel", "DMA task", 2);
 
   MICROTRACE_DUMP_JSON();
 }

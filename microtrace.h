@@ -73,6 +73,7 @@ typedef struct {
   char name[MICROTRACE_MAX_STRING_LEN];
   uint32_t timestamp;
   char phase;
+  uint32_t tid; /* Thread ID */ 
 } microtrace_event_t;
 
 extern microtrace_event_t microtrace_event_buffer[MICROTRACE_MAX_EVENTS];
@@ -96,7 +97,7 @@ char microtrace_print_buffer[512];
 #endif
 
 #ifndef MICROTRACE_DISABLE
-#define _MICROTRACE_ADD_EVENT(_phase, _category, _name)                        \
+#define _MICROTRACE_ADD_EVENT(_phase, _category, _name, _tid)                  \
   do {                                                                         \
     MICROTRACE_STATIC_ASSERT(sizeof(_category) < MICROTRACE_MAX_STRING_LEN,    \
                              CATEGORY_STRING_LENGHT_TOO_BIG);                  \
@@ -115,9 +116,10 @@ char microtrace_print_buffer[512];
     strcpy(event->name, _name);                                                \
     event->timestamp = timestamp;                                              \
     event->phase = _phase;                                                     \
+    event->tid = _tid;                                                         \ 
   } while (0);
 #else
-#define _MICROTRACE_ADD_EVENT(_phase, _category, _name)                        \
+#define _MICROTRACE_ADD_EVENT(_phase, _category, _name, _tid)                  \
   do {                                                                         \
   } while (0)
 #endif
@@ -128,18 +130,20 @@ char microtrace_print_buffer[512];
     printf("{\"traceEvents\":[\r\n");                                          \
     for (uint32_t i = 0; i < microtrace_event_counter - 1; i++) {              \
       sprintf(microtrace_print_buffer,                                         \
-              "{\"cat\":\"%s\",\"pid\":1,\"tid\":1,\"ts\":%ld,\"ph\":\"%c\","  \
-              "\"name\":\"%s\",\"args\":{}},\r\n",                             \
+              "{\"cat\":\"%s\",\"pid\":1,\"tid\":\"%d\",\"ts\":%ld,"           \
+              "\"ph\":\"%c\",\"name\":\"%s\",\"args\":{}},\r\n",               \
               microtrace_event_buffer[i].category,                             \
+              microtrace_event_buffer[i].tid,                                  \
               microtrace_event_buffer[i].timestamp *MICROTRACE_MULTIPLIER,     \
               microtrace_event_buffer[i].phase,                                \
               microtrace_event_buffer[i].name);                                \
       printf(microtrace_print_buffer);                                         \
     }                                                                          \
     sprintf(microtrace_print_buffer,                                           \
-            "{\"cat\":\"%s\",\"pid\":1,\"tid\":1,\"ts\":%ld,\"ph\":\"%c\","    \
-            "\"name\":\"%s\",\"args\":{}}]}\r\n",                              \
+            "{\"cat\":\"%s\",\"pid\":1,\"tid\":\"%d\",\"ts\":%ld,"             \
+            "\"ph\":\"%c\",\"name\":\"%s\",\"args\":{}}]}\r\n",                \
             microtrace_event_buffer[microtrace_event_counter - 1].category,    \
+            microtrace_event_buffer[microtrace_event_counter - 1].tid,         \
             microtrace_event_buffer[microtrace_event_counter - 1]              \
                 .timestamp *MICROTRACE_MULTIPLIER,                             \
             microtrace_event_buffer[microtrace_event_counter - 1].phase,       \
@@ -152,8 +156,8 @@ char microtrace_print_buffer[512];
   } while (0)
 #endif
 
-#define MICROTRACE_BEGIN(cat, name) _MICROTRACE_ADD_EVENT('B', cat, name)
-#define MICROTRACE_END(cat, name) _MICROTRACE_ADD_EVENT('E', cat, name)
-#define MICROTRACE_INSTANT(cat, name) _MICROTRACE_ADD_EVENT('I', cat, name)
+#define MICROTRACE_BEGIN(cat, name, tid) _MICROTRACE_ADD_EVENT('B', cat, name, tid)
+#define MICROTRACE_END(cat, name, tid) _MICROTRACE_ADD_EVENT('E', cat, name, tid)
+#define MICROTRACE_INSTANT(cat, name, tid) _MICROTRACE_ADD_EVENT('I', cat, name, tid)
 
 #endif // _MICROTRACE_H_
