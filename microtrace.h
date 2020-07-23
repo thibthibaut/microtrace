@@ -130,7 +130,7 @@ char microtrace_print_buffer[512];
     printf("{\"traceEvents\":[\r\n");                                          \
     for (uint32_t i = 0; i < microtrace_event_counter - 1; i++) {              \
       sprintf(microtrace_print_buffer,                                         \
-              "{\"cat\":\"%s\",\"pid\":1,\"tid\":\"%d\",\"ts\":%ld,"           \
+              "{\"cat\":\"%s\",\"pid\":1,\"tid\":\"%ld\",\"ts\":%ld,"          \
               "\"ph\":\"%c\",\"name\":\"%s\",\"args\":{}},\r\n",               \
               microtrace_event_buffer[i].category,                             \
               microtrace_event_buffer[i].tid,                                  \
@@ -140,7 +140,7 @@ char microtrace_print_buffer[512];
       printf(microtrace_print_buffer);                                         \
     }                                                                          \
     sprintf(microtrace_print_buffer,                                           \
-            "{\"cat\":\"%s\",\"pid\":1,\"tid\":\"%d\",\"ts\":%ld,"             \
+            "{\"cat\":\"%s\",\"pid\":1,\"tid\":\"%ld\",\"ts\":%ld,"            \
             "\"ph\":\"%c\",\"name\":\"%s\",\"args\":{}}]}\r\n",                \
             microtrace_event_buffer[microtrace_event_counter - 1].category,    \
             microtrace_event_buffer[microtrace_event_counter - 1].tid,         \
