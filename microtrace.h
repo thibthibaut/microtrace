@@ -116,7 +116,7 @@ char microtrace_print_buffer[512];
     strcpy(event->name, _name);                                                \
     event->timestamp = timestamp;                                              \
     event->phase = _phase;                                                     \
-    event->tid = _tid;                                                         \ 
+    event->tid = _tid;                                                         \
   } while (0);
 #else
 #define _MICROTRACE_ADD_EVENT(_phase, _category, _name, _tid)                  \
